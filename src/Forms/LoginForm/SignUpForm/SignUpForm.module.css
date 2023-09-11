@@ -5,10 +5,10 @@
 .container {
   max-width: 500px;
   min-width: 500px;
-  margin-top: 1rem;
-  border: 1px solid #ccc;
-  padding: 3rem 1rem;
-  border-radius: 8px;
+  /* margin-top: 1rem; */
+  /* border: 1px solid #ccc; */
+  padding: 1rem 1rem;
+  /* border-radius: 8px; */
 }
 .heading {
   text-align: center;

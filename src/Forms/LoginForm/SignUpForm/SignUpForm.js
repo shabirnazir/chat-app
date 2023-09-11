@@ -1,10 +1,17 @@
+import { useState } from "react";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import css from "./SignUpForm.module.css";
-import NavbarContainer from "../../../Components/Navibar/NavbarContainer";
 import axios from "axios";
-function SignUpForm() {
+import LoadingIcon from "../../../Components/LoadingIcon/LoadingIcon";
+import { normalizeError } from "../../../Helper/util";
+import ErrorAlert from "../../../Components/ErrorAlert/ErrorAlert";
+function SignUpForm(props) {
+  const { handleSignup } = props;
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const {
     register,
     handleSubmit,
@@ -13,18 +20,27 @@ function SignUpForm() {
   } = useForm();
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
       const response = await axios.post("/user/register", data);
-      console.log(response);
+      const user = response.data;
+      //save in local storage
+      localStorage.setItem("UserInfo", JSON.stringify(user));
+      setLoading(false);
+      handleSignup(false);
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+
+      setError(normalizeError(error));
     }
   };
   return (
     <>
-      <NavbarContainer />
       <div className={css.root}>
         <div className={css.container}>
           <h1 className={css.heading}>Sign Up</h1>
+          {error ? (
+            <ErrorAlert error={error || "Something went wrong!"} />
+          ) : null}
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-3" controlId="formGroupFirstName">
               <Form.Label>First Name</Form.Label>
@@ -62,7 +78,7 @@ function SignUpForm() {
 
             <div className="d-grid gap-2">
               <Button variant="primary" size="lg" type="submit">
-                Sign Up
+                {loading ? <LoadingIcon /> : "Sign Up"}
               </Button>
             </div>
           </Form>

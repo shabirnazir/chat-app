@@ -28,7 +28,10 @@ router.post("/register", async (req, res) => {
     // check if user already exists
     const dbUser = await user.findOne({ email: req.body.email });
     if (dbUser) {
-      return res.status(400).send("User already exists");
+      console.log("User already exists");
+      return res.status(400).json({
+        message: "Email Address already exists",
+      });
     }
     // hash password
     const newUser = new user({
@@ -38,7 +41,16 @@ router.post("/register", async (req, res) => {
       password: req.body.password,
     });
     await newUser.save();
-    return res.status(201).send("User registered successfully");
+    const token = newUser.generateAuthToken();
+    res.cookie("token", token, {
+      httpOnly: true,
+    });
+    return res.status(201).send({
+      message: "User created successfully",
+      id: newUser._id,
+      name: newUser.firstName + " " + newUser.lastName,
+      email: newUser.email,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).send("Internal Server Error");
@@ -49,8 +61,11 @@ router.post("/login", async (req, res) => {
   try {
     const userData = await user.findOne({ email: req.body.email });
     if (!userData) {
-      return res.status(400).send("Cannot find user");
+      return res.status(400).json({
+        message: "Invalid email address or password",
+      });
     }
+    console.log(userData);
     // compare password
     const validPassword = await bcrypt.compare(
       req.body.password,
@@ -68,7 +83,12 @@ router.post("/login", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
     });
-    return res.send("Logged in");
+    return res.status(200).send({
+      message: "User logged in successfully",
+      id: userData._id,
+      name: userData.firstName + " " + userData.lastName,
+      email: userData.email,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
