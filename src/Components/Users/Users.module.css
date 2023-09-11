@@ -1,0 +1,17 @@
+.users {
+  color: white;
+  &:hover {
+    color: #ccc;
+  }
+}
+.heading {
+}
+.user {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.pagination {
+  display: flex;
+  justify-content: space-between;
+}

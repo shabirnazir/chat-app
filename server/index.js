@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const MONGODB_URL = process.env.MONGO_DB_URL;
 const app = express();
 const userRouter = require("./routes/userApi");
+const dataRouter = require("./routes/userDataApi");
 const port = process.env.PORT || 3000;
 const AccessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 mongoose
@@ -18,9 +19,10 @@ mongoose
 
 app.use(express.json()); // Middleware for parsing JSON request bodies
 app.use(cookieParser()); // Use cookie-parser middleware
-app.use("/user", userRouter);
 
-const users = ["John Doe", "Jane Doe", "John Smith"];
+app.use("/user", userRouter);
+app.use("/data", dataRouter);
+
 // Middleware to check if the user is authenticated
 const authenticateUser = (req, res, next) => {
   const token = req.cookies.token;

@@ -1,9 +1,9 @@
 import React from "react";
-import { Oval } from "react-loading-icons";
+import Spinner from "react-bootstrap/Spinner";
 const LoadingIcon = () => {
   return (
     <div>
-      <Oval stroke="white" strokeOpacity={1} speed={0.75} strokeWidth={5} />
+      <Spinner animation="border" variant="light" />
     </div>
   );
 };

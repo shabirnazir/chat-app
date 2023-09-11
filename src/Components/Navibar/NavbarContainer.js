@@ -10,6 +10,11 @@ import LoginForm from "../../Forms/LoginForm/LoginForm";
 import SignUpForm from "../../Forms/LoginForm/SignUpForm/SignUpForm";
 import ProfileUser from "../ProfileUser/ProfileUser";
 
+import { RiLoginBoxFill } from "react-icons/ri";
+import { SiGnuprivacyguard } from "react-icons/si";
+import { AiFillHome } from "react-icons/ai";
+import axios from "axios";
+import Users from "../Users/Users";
 function NavbarContainer() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
@@ -28,29 +33,40 @@ function NavbarContainer() {
   const handleSignup = (state) => {
     setShowSignup(state);
   };
-  const handleLogout = () => {
-    //remove user info from local storage
-    localStorage.removeItem("UserInfo");
-    //set user info in redux
-    setUser(null);
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post("/user/logout");
+      localStorage.removeItem("UserInfo");
+      setUser(null);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+          <Navbar.Brand href="">Chat app</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link>
+            <Nav.Link href="">
               <Link to="/" className={css.link}>
-                Home
+                <AiFillHome className={css.icon} /> Home
               </Link>
+            </Nav.Link>
+            <Nav.Link>
+              <Users user={user} />
             </Nav.Link>
           </Nav>
           <Nav className="end">
             {user ? null : (
               <>
-                <Nav.Link onClick={() => setShowSignup(true)}>Sign Up</Nav.Link>
-                <Nav.Link onClick={() => setShowLogin(true)}>Login</Nav.Link>
+                <Nav.Link onClick={() => setShowSignup(true)}>
+                  <SiGnuprivacyguard className={css.icon} />
+                  Sign Up
+                </Nav.Link>
+                <Nav.Link onClick={() => setShowLogin(true)}>
+                  <RiLoginBoxFill className={css.icon} /> Login
+                </Nav.Link>
               </>
             )}
             {user?.name ? (
