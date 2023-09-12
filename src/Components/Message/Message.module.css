@@ -1,0 +1,46 @@
+.container {
+  margin: 3rem;
+  border: 1px solid lightgray;
+  padding: 2rem;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.messageContainer {
+  border: 1px solid lightgray;
+  height: 50vh;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  max-height: 50vh;
+  overflow-y: scroll;
+}
+.receiver {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0.5rem;
+}
+.sender {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0.5rem;
+}
+
+.receiverMsg {
+  background-color: #2da4e9;
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin: 0.5rem;
+  max-width: 60%;
+  word-wrap: break-word;
+  color: white;
+}
+.senderMsg {
+  background-color: #e5e5ea;
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin: 0.5rem;
+  max-width: 60%;
+  word-wrap: break-word;
+  color: black;
+}

@@ -53,9 +53,11 @@ function NavbarContainer() {
                 <AiFillHome className={css.icon} /> Home
               </Link>
             </Nav.Link>
-            <Nav.Link>
-              <Users user={user} />
-            </Nav.Link>
+            {user ? (
+              <Nav.Link>
+                <Users user={user} />
+              </Nav.Link>
+            ) : null}
           </Nav>
           <Nav className="end">
             {user ? null : (

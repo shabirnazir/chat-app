@@ -11,9 +11,7 @@ function Users(props) {
   const [users, setUsers] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  console.log({ users, totalPages, currentPage });
   useEffect(() => {
-    //iiffe
     (async () => {
       try {
         const response = await axios.get("/data/all", {
